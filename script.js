@@ -6,7 +6,7 @@
   - Serviços, valores, descrições e fotos
 */
 const CONFIG = {
-  name: "Nail Designer",
+  name: "SEU NOME OU LOGO",
   whatsapp: "5571999784507", // Ex.: 5511999999999
   instagram: "https://instagram.com/amorimdeveloper",
   generalMessage: "Olá! Vi seu catálogo de Natal e gostaria de agendar um horário."

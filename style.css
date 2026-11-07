@@ -67,7 +67,7 @@ button { font: inherit; }
   pointer-events: none;
 }
 .brand-tree { color: var(--gold-light); font-size: 24px; line-height: 1; margin-bottom: 5px; transform: rotate(180deg); }
-.brand-name { font: 42px/1.15 var(--script); color: #fff0d7; text-shadow: 0 2px 12px #f1c98b40; }
+.brand-name { font: 30px/1.15 var(--serif); color: #fff0d7; text-shadow: 0 2px 12px #f1c98b40; }
 .tagline { margin: 7px 0 0; color: #f9e5d7; font-size: 12px; }
 .top-bow { position: absolute; top: 5px; right: 13px; font-size: 38px; filter: drop-shadow(0 4px 5px #2a0305); transform: rotate(10deg); }
 .garland { position: absolute; color: #d7a95d; opacity: .55; font-size: 17px; }

@@ -1,0 +1,27 @@
+CATÁLOGO NATALINO — NAIL DESIGN
+
+COMO USAR
+1. Extraia o ZIP.
+2. Mantenha index.html, style.css e script.js juntos na mesma pasta.
+3. Abra index.html no navegador.
+
+PERSONALIZAÇÃO
+No começo de script.js, edite:
+- name: nome da profissional.
+- whatsapp: número com DDI + DDD, apenas números. Exemplo: 5511999999999.
+- instagram: endereço do Instagram.
+- generalMessage: mensagem dos botões gerais.
+
+No array SERVICES, edite nome, descrição, preço e imagem de cada serviço.
+No array REVIEWS, substitua os depoimentos demonstrativos.
+
+FUNCIONALIDADES
+- Página responsiva, com visual mobile-first inspirado na referência.
+- Catálogo de serviços com imagem, nome, descrição e preço.
+- Cada botão "Quero esse!" abre o WhatsApp com serviço e valor preenchidos.
+- Botão geral de WhatsApp.
+- Navegação por rolagem e seção de depoimentos com setas.
+- Nome da profissional e ano automáticos.
+
+IMPORTANTE
+Os dados e preços são exemplos. As fotos são carregadas do Unsplash e precisam de internet. Substitua por fotos autorizadas da profissional antes de publicar.

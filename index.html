@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#710b13">
+  <title>Nail Designer | Catálogo de Natal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Great+Vibes&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero" id="inicio">
+      <div class="garland garland-left">✦　✧　✦</div>
+      <div class="top-bow" aria-hidden="true">🎀</div>
+      <div class="snowflake snowflake-one">❄</div>
+      <div class="snowflake snowflake-two">✳</div>
+      <div class="brand-tree">♟</div>
+      <div class="brand-name" data-brand>Nail Designer</div>
+      <p class="tagline">Beleza que brilha em qualquer ocasião ♡</p>
+    </header>
+
+    <main>
+      <section class="services-panel" id="servicos">
+        <div class="section-title"><span></span><h1>Mais Serviços</h1><span></span></div>
+        <div class="service-list" id="serviceList"></div>
+      </section>
+
+      <section class="testimonials" id="depoimentos">
+        <h2>♧ &nbsp; Depoimentos</h2>
+        <div class="review-wrap">
+          <button class="review-arrow" id="prevReview" aria-label="Depoimento anterior">‹</button>
+          <article class="review-card" aria-live="polite">
+            <div class="avatar" id="reviewAvatar">A</div>
+            <div class="review-copy">
+              <div class="stars">★★★★★</div>
+              <p id="reviewText"></p>
+              <small id="reviewAuthor"></small>
+            </div>
+          </article>
+          <button class="review-arrow" id="nextReview" aria-label="Próximo depoimento">›</button>
+        </div>
+      </section>
+
+      <section class="booking" id="contato">
+        <div class="gift">♧</div>
+        <h2>Garanta já o seu horário!</h2>
+        <p>Clique no botão abaixo e fale comigo<br>pelo WhatsApp.</p>
+        <a class="whatsapp-button" data-whatsapp href="#" target="_blank" rel="noopener">
+          <span class="wa-icon">◉</span> Falar no WhatsApp
+        </a>
+        <div class="thank-you">Obrigada por confiar<br>no meu trabalho! ♡</div>
+        <div class="footer-bow">────── ♡ ──────</div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>✧</span> <span data-brand>Nail Designer</span> · © <span id="year"></span>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<html lang="pt-BR" class="scroll-smooth" data-theme="natal">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS CDN -->
+  <!-- Tailwind CSS CDN (v3) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -33,14 +33,14 @@
       padding: 0;
     }
 
-    /* Trava de scroll do fundo quando o modal está aberto */
+    /* Trava o scroll da página quando o modal está aberto */
     body.modal-open {
       overflow: hidden !important;
     }
 
     /* ==========================================================================
        2. PREVENÇÃO DE ZOOM AUTOMÁTICO NO iOS SAFARI / ANDROID AO DIGITAR
-          Todos os campos de formulário usam 16px obrigatórios e touch-action
+          Campos de formulário usam font-size: 16px obrigatório
        ========================================================================== */
     input,
     select,
@@ -48,6 +48,8 @@
       font-size: 16px !important;
       line-height: 1.4;
       box-sizing: border-box;
+      max-width: 100%;
+      min-width: 0;
     }
 
     button,
@@ -66,7 +68,8 @@
           - Rosé Glam: Rosé #8e3b46 & Champagne #cfa46a
           - Classic Chic: Espresso #2c221e & Ouro Velho #c59b5f
        ========================================================================== */
-    :root {
+    :root,
+    [data-theme="natal"] {
       --bg-outer: #260306;
       --bg-deep: #4b060c;
       --bg-primary: #710b13;
@@ -79,11 +82,10 @@
       --text-muted-dark: #ebd5c8;
       --text-on-light: #2b1618;
       --text-muted-light: #6d4d51;
-      --border-gold: rgba(212, 175, 55, 0.35);
+      --border-gold: rgba(212, 175, 55, 0.38);
       --shadow-luxury: 0 24px 60px rgba(0, 0, 0, 0.55);
     }
 
-    /* Paleta 2: Rosé Glam (#8e3b46 & Champagne #cfa46a) */
     [data-theme="rose"] {
       --bg-outer: #331116;
       --bg-deep: #61242d;
@@ -97,10 +99,9 @@
       --text-muted-dark: #f2dbd7;
       --text-on-light: #32181c;
       --text-muted-light: #745055;
-      --border-gold: rgba(207, 164, 106, 0.4);
+      --border-gold: rgba(207, 164, 106, 0.42);
     }
 
-    /* Paleta 3: Classic Chic (Espresso #2c221e & Ouro Velho #c59b5f) */
     [data-theme="classic"] {
       --bg-outer: #110d0b;
       --bg-deep: #1d1613;
@@ -114,11 +115,11 @@
       --text-muted-dark: #dfd6c9;
       --text-on-light: #231b18;
       --text-muted-light: #635650;
-      --border-gold: rgba(197, 155, 95, 0.38);
+      --border-gold: rgba(197, 155, 95, 0.4);
     }
 
     /* ==========================================================================
-       4. TIPOGRAFIA & SUPERFÍCIES EDITORIAIS
+       4. TIPOGRAFIA & SUPERFÍCIES EDITORIAIS DE LUXO
        ========================================================================== */
     body {
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -200,7 +201,7 @@
       box-shadow: 0 12px 26px rgba(212, 175, 55, 0.44);
     }
 
-    /* Ornamentos Sutis Flutuantes */
+    /* Ornamentos Delicados Flutuantes */
     @keyframes floatOrnament {
       0%, 100% {
         transform: translateY(0px) rotate(0deg);
@@ -239,7 +240,7 @@
       transform: rotate(180deg);
     }
 
-    /* Scroll horizontal oculto nas abas */
+    /* Barra de rolagem oculta nas abas de filtro */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
@@ -256,7 +257,7 @@
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background: rgba(15, 5, 8, 0.72);
+      background: rgba(15, 5, 8, 0.74);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       display: none;
@@ -343,11 +344,11 @@
       transform: scale(0.95);
     }
 
-    /* Grid de formulário sempre 1 coluna no mobile e contenção de input[type="date"] */
+    /* Grid de formulário sempre 1 coluna e contenção rígida de input[type="date"] */
     .modal-form-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 12px;
+      gap: 13px;
       width: 100%;
       max-width: 100%;
       min-width: 0;
@@ -406,14 +407,26 @@
       border-color: var(--accent-gold-dark);
       box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.22);
     }
+
+    .modal-card input.input-invalid {
+      border-color: #dc2626;
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.16);
+    }
   </style>
 </head>
 <body class="antialiased selection:bg-amber-200 selection:text-stone-900">
 
+  <!-- Backdrop clicável para fechar a barra "Personalizar Teste" ao tocar fora -->
+  <div
+    id="customizerBackdrop"
+    class="hidden fixed inset-0 z-30 bg-black/55 backdrop-blur-sm transition-opacity"
+    aria-hidden="true"
+  ></div>
+
   <!-- ========================================================================
        1. BARRA SUPERIOR INTERATIVA ("Personalizar Teste")
        ======================================================================== -->
-  <div class="sticky top-0 z-40 w-full backdrop-blur-md bg-black/80 border-b border-amber-400/25 text-stone-100">
+  <div class="sticky top-0 z-40 w-full backdrop-blur-md bg-black/85 border-b border-amber-400/25 text-stone-100">
     <div class="max-w-[480px] mx-auto px-3.5 py-2.5 flex items-center justify-between gap-2">
       <div class="flex items-center gap-2 min-w-0">
         <span class="inline-flex h-2 w-2 rounded-full bg-amber-400 animate-pulse shrink-0"></span>
@@ -436,27 +449,41 @@
     </div>
 
     <!-- Painel Expansível para Testar Nome do Studio e Paletas de Luxo -->
-    <div id="customizerDrawer" class="hidden border-t border-amber-400/20 bg-stone-950/95">
-      <div class="max-w-[480px] mx-auto px-4 py-3.5 space-y-3">
+    <div id="customizerDrawer" class="hidden border-t border-amber-400/25 bg-stone-950/95 shadow-2xl">
+      <form id="customizerForm" class="max-w-[480px] mx-auto px-4 py-4 space-y-3.5" novalidate>
         <div class="flex items-center justify-between gap-2">
-          <p class="text-xs font-medium text-amber-200">
+          <p class="text-xs font-semibold text-amber-200">
             Personalize o nome do Studio e a paleta:
           </p>
-          <button id="resetDemoBtn" type="button" class="text-xs text-stone-400 hover:text-amber-200 underline cursor-pointer shrink-0">
+          <button
+            id="resetDemoBtn"
+            type="button"
+            class="text-xs text-stone-400 hover:text-amber-200 underline cursor-pointer shrink-0 py-1 px-1"
+          >
             Restaurar
           </button>
         </div>
 
-        <!-- Campo de Nome do Studio com font-size: 16px para evitar zoom no mobile -->
-        <div class="w-full min-w-0">
+        <!-- Campo de Nome do Studio com enterkeyhint="done" e font-size: 16px -->
+        <div class="flex items-center gap-2 w-full min-w-0">
           <label for="studioNameInput" class="sr-only">Nome do Studio</label>
           <input
             id="studioNameInput"
             type="text"
+            enterkeyhint="done"
+            autocomplete="off"
+            autocapitalize="words"
+            spellcheck="false"
             maxlength="36"
             placeholder="Digite o nome do seu Studio..."
-            class="w-full min-w-0 px-3.5 py-2.5 rounded-xl bg-white/10 border border-amber-300/35 text-white placeholder-stone-400 focus:outline-none focus:border-amber-300 transition"
+            class="flex-1 min-w-0 px-3.5 py-2.5 rounded-xl bg-white/10 border border-amber-300/35 text-white placeholder-stone-400 focus:outline-none focus:border-amber-300 transition"
           >
+          <button
+            type="submit"
+            class="btn-gold-shimmer shrink-0 min-h-[44px] px-4 py-2.5 rounded-xl text-xs uppercase tracking-wide cursor-pointer"
+          >
+            Concluir
+          </button>
         </div>
 
         <!-- Seletor das 3 Paletas de Luxo -->
@@ -491,7 +518,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 
@@ -506,9 +533,9 @@
     <header class="hero relative px-6 pt-8 pb-12 text-center overflow-hidden" id="inicio">
       <!-- Ornamentos Delicados -->
       <div class="flex items-center justify-between text-xs tracking-[0.35em] opacity-75 mb-2 select-none" style="color: var(--accent-gold-light)" aria-hidden="true">
-        <span>✦　✧　✦</span>
+        <span>✦ ✧ ✦</span>
         <span class="text-base">🎀</span>
-        <span>✦　✧　✦</span>
+        <span>✦ ✧ ✦</span>
       </div>
 
       <span class="ornament-float absolute top-16 left-6 text-sm select-none pointer-events-none" style="color: var(--accent-gold-light)" aria-hidden="true">❄</span>
@@ -516,7 +543,7 @@
       <span class="ornament-float absolute bottom-10 left-8 text-xs select-none pointer-events-none" style="color: var(--accent-gold-light)" aria-hidden="true">✦</span>
       <span class="ornament-float-delayed absolute bottom-12 right-8 text-xs select-none pointer-events-none" style="color: var(--accent-gold)" aria-hidden="true">❄</span>
 
-      <!-- Emblema Diamante -->
+      <!-- Emblema Diamante SVG -->
       <div class="mx-auto mt-2 mb-4 w-16 h-16 rounded-full flex items-center justify-center border border-amber-300/35 bg-white/5 shadow-inner">
         <svg class="w-8 h-8" style="color: var(--accent-gold-light)" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
           <path d="M14 18L24 9L34 18L24 39L14 18Z" stroke-linecap="round" stroke-linejoin="round"/>
@@ -683,7 +710,7 @@
                   class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 >
                 <div class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent"></div>
-                <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/70 text-amber-200 border border-amber-300/40 backdrop-blur-xs">
+                <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/75 text-amber-200 border border-amber-300/40 backdrop-blur-sm">
                   Destaque Festas
                 </span>
               </div>
@@ -723,7 +750,7 @@
                   class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 >
                 <div class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent"></div>
-                <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/70 text-amber-200 border border-amber-300/40 backdrop-blur-xs">
+                <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/75 text-amber-200 border border-amber-300/40 backdrop-blur-sm">
                   Clássico Luxo
                 </span>
               </div>
@@ -763,7 +790,7 @@
                   class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 >
                 <div class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent"></div>
-                <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/70 text-amber-200 border border-amber-300/40 backdrop-blur-xs">
+                <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/75 text-amber-200 border border-amber-300/40 backdrop-blur-sm">
                   Mais Pedida
                 </span>
               </div>
@@ -803,8 +830,8 @@
                   class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 >
                 <div class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent"></div>
-                <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/70 text-amber-200 border border-amber-300/40 backdrop-blur-xs">
-                  Elegância
+                <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/75 text-amber-200 border border-amber-300/40 backdrop-blur-sm">
+                  Elegância Natural
                 </span>
               </div>
               <div class="p-3.5 pb-2">
@@ -834,34 +861,35 @@
       </section>
 
       <!-- ====================================================================
-           5. SEÇÃO "INFORMAÇÕES & CUIDADOS" (Acordeão Interativo)
+           5. SEÇÃO "INFORMAÇÕES & CUIDADOS" (#cuidados)
            ==================================================================== -->
-      <section id="informacoes" aria-labelledby="heading-info">
+      <section id="cuidados" aria-labelledby="heading-cuidados">
         <div class="mb-4">
           <span class="text-[11px] font-semibold uppercase tracking-[0.18em]" style="color: var(--accent-gold-dark)">
             Orientações do Studio
           </span>
-          <h2 id="heading-info" class="font-serif-editorial text-xl font-bold mt-0.5" style="color: var(--text-on-light)">
+          <h2 id="heading-cuidados" class="font-serif-editorial text-xl font-bold mt-0.5" style="color: var(--text-on-light)">
             Informações &amp; Cuidados
           </h2>
         </div>
 
         <div class="space-y-2.5" id="faqAccordion">
-          <!-- Item 1: Sinal de Reserva -->
+          <!-- Item 1: Reserva & Sinal de Agendamento -->
           <div class="accordion-item cream-card rounded-2xl" data-open="true">
             <button
               type="button"
               class="accordion-trigger w-full px-4 py-3.5 flex items-center justify-between gap-3 text-left cursor-pointer"
               aria-expanded="true"
+              aria-controls="faq-panel-1"
             >
               <span class="text-xs sm:text-[13px] font-bold" style="color: var(--text-on-light)">
-                Sinal de Reserva
+                Reserva &amp; Sinal de Agendamento
               </span>
               <svg class="accordion-chevron w-4 h-4 shrink-0 text-amber-700 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/>
               </svg>
             </button>
-            <div class="accordion-content">
+            <div id="faq-panel-1" class="accordion-content">
               <div class="accordion-inner px-4 pb-3.5 text-xs leading-relaxed" style="color: var(--text-muted-light)">
                 Para confirmar e reservar exclusivamente o seu horário na agenda, solicitamos um <strong>sinal de 30% via Pix</strong> no ato do agendamento. O valor restante é acertado no dia do atendimento.
               </div>
@@ -874,6 +902,7 @@
               type="button"
               class="accordion-trigger w-full px-4 py-3.5 flex items-center justify-between gap-3 text-left cursor-pointer"
               aria-expanded="false"
+              aria-controls="faq-panel-2"
             >
               <span class="text-xs sm:text-[13px] font-bold" style="color: var(--text-on-light)">
                 Tolerância de Atrasos
@@ -882,49 +911,51 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/>
               </svg>
             </button>
-            <div class="accordion-content">
+            <div id="faq-panel-2" class="accordion-content">
               <div class="accordion-inner px-4 pb-3.5 text-xs leading-relaxed" style="color: var(--text-muted-light)">
                 Trabalhamos com <strong>tolerância máxima de 15 minutos</strong> de atraso para respeitar a pontualidade das clientes seguintes. Caso precise remarcar, avise com no mínimo <strong>24h de antecedência</strong>.
               </div>
             </div>
           </div>
 
-          <!-- Item 3: Prazo Ideal de Manutenção -->
+          <!-- Item 3: Prazo Ideal de Manutenção (15 a 21 dias) -->
           <div class="accordion-item cream-card rounded-2xl" data-open="false">
             <button
               type="button"
               class="accordion-trigger w-full px-4 py-3.5 flex items-center justify-between gap-3 text-left cursor-pointer"
               aria-expanded="false"
+              aria-controls="faq-panel-3"
             >
               <span class="text-xs sm:text-[13px] font-bold" style="color: var(--text-on-light)">
-                Prazo Ideal de Manutenção
+                Prazo Ideal de Manutenção (15 a 21 dias)
               </span>
               <svg class="accordion-chevron w-4 h-4 shrink-0 text-amber-700 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/>
               </svg>
             </button>
-            <div class="accordion-content">
+            <div id="faq-panel-3" class="accordion-content">
               <div class="accordion-inner px-4 pb-3.5 text-xs leading-relaxed" style="color: var(--text-muted-light)">
                 O retorno para manutenção deve ocorrer entre <strong>15 e 21 dias</strong> para manter o equilíbrio estrutural e a saúde da lâmina natural. Após 28 dias, é considerada nova aplicação.
               </div>
             </div>
           </div>
 
-          <!-- Item 4: Cuidados Diários -->
+          <!-- Item 4: Cuidados Diários com o Alongamento -->
           <div class="accordion-item cream-card rounded-2xl" data-open="false">
             <button
               type="button"
               class="accordion-trigger w-full px-4 py-3.5 flex items-center justify-between gap-3 text-left cursor-pointer"
               aria-expanded="false"
+              aria-controls="faq-panel-4"
             >
               <span class="text-xs sm:text-[13px] font-bold" style="color: var(--text-on-light)">
-                Cuidados Diários
+                Cuidados Diários com o Alongamento
               </span>
               <svg class="accordion-chevron w-4 h-4 shrink-0 text-amber-700 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/>
               </svg>
             </button>
-            <div class="accordion-content">
+            <div id="faq-panel-4" class="accordion-content">
               <div class="accordion-inner px-4 pb-3.5 text-xs leading-relaxed" style="color: var(--text-muted-light)">
                 Hidrate as cutículas diariamente com óleo hidratante, evite usar as unhas como ferramenta para abrir embalagens e utilize luvas ao manusear produtos químicos.
               </div>
@@ -953,7 +984,7 @@
               type="button"
               id="prevReview"
               aria-label="Depoimento anterior"
-              class="w-9 h-9 rounded-full bg-white border border-stone-200 flex items-center justify-center text-stone-700 hover:border-amber-500 hover:text-amber-800 transition cursor-pointer shadow-xs"
+              class="w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center text-stone-700 hover:border-amber-500 hover:text-amber-800 transition cursor-pointer shadow-xs"
             >
               ‹
             </button>
@@ -961,18 +992,18 @@
               type="button"
               id="nextReview"
               aria-label="Próximo depoimento"
-              class="w-9 h-9 rounded-full bg-white border border-stone-200 flex items-center justify-center text-stone-700 hover:border-amber-500 hover:text-amber-800 transition cursor-pointer shadow-xs"
+              class="w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center text-stone-700 hover:border-amber-500 hover:text-amber-800 transition cursor-pointer shadow-xs"
             >
               ›
             </button>
           </div>
         </div>
 
-        <!-- Card do Depoimento -->
+        <!-- Card do Depoimento (suporta swipe no celular) -->
         <article
           id="reviewCard"
           aria-live="polite"
-          class="bg-white rounded-2xl p-4 shadow-sm border border-stone-200/75 transition-opacity duration-200"
+          class="bg-white rounded-2xl p-4 shadow-sm border border-stone-200/75 transition-opacity duration-200 select-none"
         >
           <div class="flex items-center justify-between gap-2 mb-2.5">
             <div class="flex items-center gap-2.5 min-w-0">
@@ -999,8 +1030,8 @@
           </p>
         </article>
 
-        <!-- Indicadores -->
-        <div id="reviewDots" class="flex items-center justify-center gap-1.5 mt-3.5"></div>
+        <!-- Indicadores Clicáveis -->
+        <div id="reviewDots" class="flex items-center justify-center gap-2 mt-3.5" role="group" aria-label="Selecionar depoimento"></div>
       </section>
 
       <!-- ====================================================================
@@ -1039,11 +1070,11 @@
           </div>
         </div>
 
-        <!-- Botão Direto para WhatsApp / Agendamento -->
+        <!-- Botão Direto para WhatsApp / Pré-Agendamento -->
         <button
           type="button"
-          id="mainWhatsappBtn"
-          class="w-full py-3.5 px-6 rounded-full bg-[#1f8b4c] hover:bg-[#19743f] text-white font-bold text-sm shadow-lg shadow-emerald-900/20 inline-flex items-center justify-center gap-2.5 transition transform hover:-translate-y-0.5 cursor-pointer"
+          id="directWhatsappBtn"
+          class="w-full min-h-[48px] py-3.5 px-6 rounded-full bg-[#1f8b4c] hover:bg-[#19743f] text-white font-bold text-sm shadow-lg shadow-emerald-900/20 inline-flex items-center justify-center gap-2.5 transition transform hover:-translate-y-0.5 cursor-pointer"
         >
           <span class="text-base leading-none" aria-hidden="true">◉</span>
           <span>Agendar pelo WhatsApp</span>
@@ -1061,11 +1092,11 @@
     </main>
 
     <!-- ======================================================================
-         8. RODAPÉ (.footer)
+         8. RODAPÉ DINÂMICO (.footer)
          ====================================================================== -->
     <footer class="footer px-6 py-5 text-center border-t border-amber-300/15" style="background-color: var(--bg-deep)">
       <p class="text-xs font-medium tracking-wide" style="color: var(--accent-gold-light)">
-        <span>✧</span> <span data-brand>SEU NOME / LOGO</span> · © 2026
+        <span>✧</span> <span data-brand>SEU NOME / LOGO</span> · © <span id="currentYear">2026</span>
       </p>
     </footer>
   </div>
@@ -1103,29 +1134,34 @@
       </div>
 
       <!-- Formulário em Coluna Única Responsiva -->
-      <div class="modal-form-grid pt-3.5">
+      <form id="bookingForm" class="modal-form-grid pt-3.5" novalidate>
         <!-- Campo 1: Nome da Cliente -->
         <div class="modal-field-group">
           <label for="clientNameInput" class="block text-xs font-bold text-stone-800 mb-1.5">
-            Nome da Cliente
+            Nome da Cliente <span class="text-red-600">*</span>
           </label>
           <input
             id="clientNameInput"
             type="text"
+            required
             placeholder="Digite seu nome completo"
             autocomplete="name"
+            aria-describedby="clientNameError"
           >
+          <p id="clientNameError" class="hidden text-xs font-medium text-red-600 mt-1" role="alert">
+            Por favor, informe seu nome para continuar o agendamento.
+          </p>
         </div>
 
-        <!-- Campo 2: Serviço -->
+        <!-- Campo 2: Serviço Desejado -->
         <div class="modal-field-group">
           <label for="serviceSelectInput" class="block text-xs font-bold text-stone-800 mb-1.5">
-            Serviço
+            Serviço Desejado
           </label>
           <select id="serviceSelectInput"></select>
         </div>
 
-        <!-- Campo 3: Estilo / Inspiração (opcional) -->
+        <!-- Campo 3: Estilo / Inspiração -->
         <div class="modal-field-group">
           <label for="styleSelectInput" class="block text-xs font-bold text-stone-800 mb-1.5">
             Estilo / Inspiração <span class="font-normal text-stone-500">(opcional)</span>
@@ -1136,7 +1172,7 @@
             <option value="Francesinha Reversa">Francesinha Reversa</option>
             <option value="Baby Boomer Rosé">Baby Boomer Rosé</option>
             <option value="Nude Chic Minimalista">Nude Chic Minimalista</option>
-            <option value="Nail Art Personalizada">Nail Art Personalizada</option>
+            <option value="Outro / Personalizado">Outro / Personalizado</option>
           </select>
         </div>
 
@@ -1151,15 +1187,16 @@
           >
         </div>
 
-        <!-- Campo 5: Turno (Botões Táteis Manhã, Tarde, Noite) -->
+        <!-- Campo 5: Turno Preferido -->
         <div class="modal-field-group">
           <span class="block text-xs font-bold text-stone-800 mb-1.5">
-            Turno
+            Turno Preferido
           </span>
-          <div class="grid grid-cols-3 gap-2" id="shiftSelector" role="group" aria-label="Selecione o turno">
+          <div class="grid grid-cols-3 gap-2" id="shiftSelector" role="group" aria-label="Selecione o turno preferido">
             <button
               type="button"
               data-shift="Manhã"
+              aria-pressed="true"
               class="shift-btn min-h-[44px] py-2.5 px-2 rounded-xl text-xs font-bold border border-amber-700 bg-amber-700 text-white transition cursor-pointer"
             >
               Manhã
@@ -1167,6 +1204,7 @@
             <button
               type="button"
               data-shift="Tarde"
+              aria-pressed="false"
               class="shift-btn min-h-[44px] py-2.5 px-2 rounded-xl text-xs font-semibold border border-stone-300 bg-white text-stone-700 hover:bg-stone-50 transition cursor-pointer"
             >
               Tarde
@@ -1174,6 +1212,7 @@
             <button
               type="button"
               data-shift="Noite"
+              aria-pressed="false"
               class="shift-btn min-h-[44px] py-2.5 px-2 rounded-xl text-xs font-semibold border border-stone-300 bg-white text-stone-700 hover:bg-stone-50 transition cursor-pointer"
             >
               Noite
@@ -1206,18 +1245,16 @@
 
         <!-- Botões Finais de Ação -->
         <div class="modal-field-group pt-1 space-y-2">
-          <a
-            id="confirmWhatsappLink"
-            href="#"
-            target="_blank"
-            rel="noopener"
-            class="w-full min-h-[48px] py-3.5 px-5 rounded-2xl bg-[#1f8b4c] hover:bg-[#18723d] text-white text-sm font-bold flex items-center justify-center gap-2 shadow-md transition"
+          <button
+            type="submit"
+            id="confirmWhatsappBtn"
+            class="w-full min-h-[48px] py-3.5 px-5 rounded-2xl bg-[#1f8b4c] hover:bg-[#18723d] text-white text-sm font-bold flex items-center justify-center gap-2 shadow-md transition cursor-pointer"
           >
-            <span>Confirmar no WhatsApp</span>
+            <span>Enviar Agendamento no WhatsApp</span>
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6"/>
             </svg>
-          </a>
+          </button>
 
           <button
             type="button"
@@ -1227,12 +1264,12 @@
             Copiar texto da mensagem
           </button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 
   <!-- ========================================================================
-       NOTIFICAÇÃO TOAST
+       NOTIFICAÇÃO TOAST (NÃO BLOQUEANTE)
        ======================================================================== -->
   <div
     id="toastNotification"
@@ -1240,23 +1277,58 @@
     aria-live="polite"
     class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[10000] px-4 py-2.5 rounded-full bg-stone-950 text-amber-100 border border-amber-400/50 text-xs font-medium shadow-2xl opacity-0 pointer-events-none transition-all duration-300 whitespace-nowrap"
   >
-    Mensagem copiada!
+    Pronto!
   </div>
 
   <!-- ========================================================================
-       JAVASCRIPT: INTERATIVIDADE COMPLETA DO CATÁLOGO E MODAL
+       JAVASCRIPT PURO BLINDADO CONTRA BUGS
        ======================================================================== -->
   <script>
     (function () {
       'use strict';
 
       /* ======================================================================
-         CONFIGURAÇÃO DO WHATSAPP DO STUDIO (55 + DDD + Número)
+         CONFIGURAÇÃO DO WHATSAPP DO STUDIO (55 + DDD + Número, apenas dígitos)
+         Altere este número para o WhatsApp oficial do Studio
          ====================================================================== */
-      const STUDIO_WHATSAPP = '5571999784507';
+      const STUDIO_WHATSAPP = '5571999999999';
 
       /* ======================================================================
-         CATÁLOGO DE SERVIÇOS POR CATEGORIA
+         UTILITÁRIOS DEFENSIVOS (STORAGE SEGURO & SANITIZAÇÃO HTML)
+         ====================================================================== */
+      function safeGetStorage(key, fallback) {
+        try {
+          const value = window.localStorage.getItem(key);
+          return value !== null ? value : fallback;
+        } catch (err) {
+          return fallback;
+        }
+      }
+
+      function safeSetStorage(key, value) {
+        try {
+          if (value === null || value === undefined || value === '') {
+            window.localStorage.removeItem(key);
+          } else {
+            window.localStorage.setItem(key, String(value));
+          }
+        } catch (err) {
+          /* Ignora silenciosamente em navegação privada ou iframes restritos */
+        }
+      }
+
+      function escapeHTML(str) {
+        if (str === null || str === undefined) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      /* ======================================================================
+         CATÁLOGO DE PROCEDIMENTOS
          ====================================================================== */
       const SERVICES = [
         {
@@ -1269,27 +1341,36 @@
           description: 'Curvatura C simétrica, alta resistência e acabamento fino com aspecto natural.'
         },
         {
-          id: 'molde-f1',
+          id: 'gel-tip',
           category: 'alongamentos',
-          title: 'Alongamento no Molde F1',
-          duration: '1h50',
+          title: 'Alongamento em Gel na Tip',
+          duration: '2h00',
           price: 'R$ 145,00',
           badge: null,
-          description: 'Aplicação ágil com estrutura nivelada e brilho espelhado de longa duração.'
+          description: 'Extensão uniforme com nivelamento técnico e brilho espelhado duradouro.'
         },
         {
           id: 'banho-gel',
           category: 'esmaltacao',
-          title: 'Banho de Gel + Blindagem',
+          title: 'Banho de Gel',
           duration: '1h30',
           price: 'R$ 115,00',
           badge: 'Alta Durabilidade',
-          description: 'Blindagem estrutural sobre o comprimento natural para unhas fortes e sem descascar.'
+          description: 'Camada protetora estrutural sobre o comprimento natural para unhas fortes.'
+        },
+        {
+          id: 'blindagem-diamante',
+          category: 'esmaltacao',
+          title: 'Blindagem Diamante',
+          duration: '1h15',
+          price: 'R$ 95,00',
+          badge: null,
+          description: 'Selagem flexível que evita quebras e mantém o esmalte intacto por semanas.'
         },
         {
           id: 'esmaltacao-gel',
           category: 'esmaltacao',
-          title: 'Esmaltação em Gel Premium',
+          title: 'Esmaltação em Gel',
           duration: '1h10',
           price: 'R$ 85,00',
           badge: null,
@@ -1302,21 +1383,21 @@
           duration: '1h45',
           price: 'R$ 110,00',
           badge: '15 a 21 dias',
-          description: 'Renovação da curvatura, nivelamento do ponto de tensão e nova esmaltação.'
+          description: 'Renovação da curvatura, equilíbrio do ponto de tensão e nova esmaltação.'
         },
         {
-          id: 'remocao-spa',
+          id: 'spa-pes-maos',
           category: 'manutencao',
-          title: 'Remoção Segura + Spa das Mãos',
-          duration: '1h00',
-          price: 'R$ 70,00',
-          badge: null,
-          description: 'Retirada técnica sem agredir a lâmina natural, esfoliação e hidratação profunda.'
+          title: 'Spa dos Pés & Mãos',
+          duration: '1h20',
+          price: 'R$ 90,00',
+          badge: 'Relaxante',
+          description: 'Esfoliação suave, hidratação profunda com parafina fria e massagem relaxante.'
         }
       ];
 
       /* ======================================================================
-         DEPOIMENTOS DE CLIENTES
+         DEPOIMENTOS REAIS DE CLIENTES
          ====================================================================== */
       const REVIEWS = [
         {
@@ -1326,62 +1407,59 @@
           text: 'Simplesmente perfeitas! Fiz minha fibra de vidro e passei mais de 25 dias sem nenhum descolamento. Curvatura super fininha e natural.'
         },
         {
-          initial: 'J',
-          author: 'Juliana Almeida',
-          service: 'Banho de Gel + Blindagem',
-          text: 'Minhas unhas quebravam muito fácil e hoje estão enormes e super resistentes. O atendimento é impecável, pontual e acolhedor!'
+          initial: 'C',
+          author: 'Camila Vasconcelos',
+          service: 'Francesinha Reversa',
+          text: 'Atendimento pontual, ambiente impecável e acabamento de milhões. Todo mundo pergunta onde faço minhas unhas!'
         },
         {
           initial: 'B',
-          author: 'Beatriz Ferreira',
-          service: 'Francesinha Reversa',
-          text: 'Nunca recebi tantos elogios nas minhas mãos! O acabamento perto da cutícula é impecável e o brilho dura até o dia da manutenção.'
+          author: 'Beatriz Mendes',
+          service: 'Banho de Gel + Blindagem',
+          text: 'Minhas unhas naturais quebravam muito fácil. Depois que comecei o banho de gel aqui, cresceram saudáveis e sempre alinhadas.'
+        },
+        {
+          initial: 'L',
+          author: 'Larissa Ferreira',
+          service: 'Baby Boomer Rosé',
+          text: 'Fiz para o meu casamento e ficou um sonho! O degradê é super delicado e o cuidado com a cutícula faz toda diferença.'
         }
       ];
 
       /* ======================================================================
          ESTADO DA APLICAÇÃO
          ====================================================================== */
+      const DEFAULT_BRAND_NAME = 'SEU NOME / LOGO';
+      const STORAGE_BRAND_KEY = 'nail_catalog_brand_v1';
+      const STORAGE_THEME_KEY = 'nail_catalog_theme_v1';
+
       const state = {
-        studioName: 'SEU NOME/LOGO',
-        theme: 'natal',
+        studioName: safeGetStorage(STORAGE_BRAND_KEY, DEFAULT_BRAND_NAME),
+        theme: safeGetStorage(STORAGE_THEME_KEY, 'natal'),
         activeFilter: 'todos',
         reviewIndex: 0,
         selectedShift: 'Manhã'
       };
 
       /* ======================================================================
-         UTILITÁRIOS: TOAST & CLIPBOARD (SEM ALERT/CONFIRM)
+         NOTIFICAÇÃO TOAST
          ====================================================================== */
-      let toastTimer;
+      const toastNotification = document.getElementById('toastNotification');
+      let toastTimer = null;
+
       function showToast(message) {
-        const toast = document.getElementById('toastNotification');
-        if (!toast) return;
-        toast.textContent = message;
-        toast.classList.remove('opacity-0');
-        toast.classList.add('opacity-100');
+        if (!toastNotification) return;
+        toastNotification.textContent = message;
+        toastNotification.classList.remove('opacity-0');
+        toastNotification.classList.add('opacity-100');
 
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => {
-          toast.classList.remove('opacity-100');
-          toast.classList.add('opacity-0');
-        }, 2600);
-      }
-
-      function copyTextToClipboard(text) {
-        const textArea = document.createElement('textarea');
-        textArea.value = text;
-        textArea.style.position = 'fixed';
-        textArea.style.left = '-9999px';
-        document.body.appendChild(textArea);
-        textArea.select();
-        try {
-          document.execCommand('copy');
-          showToast('Mensagem copiada com sucesso!');
-        } catch (err) {
-          showToast('Não foi possível copiar automaticamente.');
+        if (toastTimer) {
+          clearTimeout(toastTimer);
         }
-        document.body.removeChild(textArea);
+        toastTimer = setTimeout(() => {
+          toastNotification.classList.remove('opacity-100');
+          toastNotification.classList.add('opacity-0');
+        }, 2500);
       }
 
       /* ======================================================================
@@ -1389,173 +1467,259 @@
          ====================================================================== */
       const toggleCustomizerBtn = document.getElementById('toggleCustomizerBtn');
       const customizerDrawer = document.getElementById('customizerDrawer');
+      const customizerBackdrop = document.getElementById('customizerBackdrop');
+      const customizerForm = document.getElementById('customizerForm');
       const studioNameInput = document.getElementById('studioNameInput');
       const resetDemoBtn = document.getElementById('resetDemoBtn');
       const themeButtons = document.querySelectorAll('[data-theme-btn]');
 
-      function updateBrandElements(rawName) {
-        const cleanName = rawName.trim() || 'STUDIO NAILS LUXE';
+      function updateBrandElements(rawName, persist) {
+        const cleanName = String(rawName || '').trim() || DEFAULT_BRAND_NAME;
         state.studioName = cleanName;
+
         document.querySelectorAll('[data-brand]').forEach((el) => {
           el.textContent = cleanName;
         });
+
+        if (persist) {
+          safeSetStorage(STORAGE_BRAND_KEY, cleanName === DEFAULT_BRAND_NAME ? '' : cleanName);
+        }
+
         updateBookingPreview();
       }
 
-      function applyTheme(themeKey) {
-        state.theme = themeKey;
+      function openCustomizer() {
+        if (!customizerDrawer || !customizerBackdrop || !toggleCustomizerBtn) return;
+        customizerDrawer.classList.remove('hidden');
+        customizerBackdrop.classList.remove('hidden');
+        toggleCustomizerBtn.setAttribute('aria-expanded', 'true');
+      }
+
+      function closeCustomizer(showConfirmation) {
+        if (studioNameInput) {
+          studioNameInput.blur();
+        }
+        if (document.activeElement && typeof document.activeElement.blur === 'function') {
+          document.activeElement.blur();
+        }
+        if (customizerDrawer) {
+          customizerDrawer.classList.add('hidden');
+        }
+        if (customizerBackdrop) {
+          customizerBackdrop.classList.add('hidden');
+        }
+        if (toggleCustomizerBtn) {
+          toggleCustomizerBtn.setAttribute('aria-expanded', 'false');
+        }
+        if (showConfirmation) {
+          showToast('Personalização aplicada! ✨');
+        }
+      }
+
+      function applyTheme(themeKey, persist) {
+        const validThemes = ['natal', 'rose', 'classic'];
+        const safeTheme = validThemes.includes(themeKey) ? themeKey : 'natal';
+        state.theme = safeTheme;
+
+        document.documentElement.setAttribute('data-theme', safeTheme);
+
         const metaTheme = document.getElementById('metaThemeColor');
-        if (themeKey === 'natal') {
-          document.documentElement.removeAttribute('data-theme');
-          if (metaTheme) metaTheme.setAttribute('content', '#710b13');
-        } else {
-          document.documentElement.setAttribute('data-theme', themeKey);
-          const colorMap = { rose: '#8e3b46', classic: '#2c221e' };
-          if (metaTheme) metaTheme.setAttribute('content', colorMap[themeKey] || '#710b13');
+        const colorMap = {
+          natal: '#710b13',
+          rose: '#8e3b46',
+          classic: '#2c221e'
+        };
+        if (metaTheme) {
+          metaTheme.setAttribute('content', colorMap[safeTheme] || '#710b13');
         }
 
         themeButtons.forEach((btn) => {
-          const isSelected = btn.getAttribute('data-theme-btn') === themeKey;
+          const isSelected = btn.getAttribute('data-theme-btn') === safeTheme;
+          btn.setAttribute('aria-pressed', String(isSelected));
           btn.className = isSelected
             ? 'theme-option flex items-center justify-center gap-1.5 px-2 py-2.5 rounded-xl text-xs font-semibold border border-amber-400 bg-amber-400/20 text-amber-100 transition cursor-pointer'
             : 'theme-option flex items-center justify-center gap-1.5 px-2 py-2.5 rounded-xl text-xs font-medium border border-white/15 bg-white/5 text-stone-300 hover:bg-white/10 transition cursor-pointer';
         });
+
+        if (persist) {
+          safeSetStorage(STORAGE_THEME_KEY, safeTheme);
+        }
       }
 
-      toggleCustomizerBtn.addEventListener('click', () => {
-        const isHidden = customizerDrawer.classList.contains('hidden');
-        customizerDrawer.classList.toggle('hidden');
-        toggleCustomizerBtn.setAttribute('aria-expanded', String(isHidden));
-      });
+      if (toggleCustomizerBtn && customizerDrawer) {
+        toggleCustomizerBtn.addEventListener('click', () => {
+          const isClosed = customizerDrawer.classList.contains('hidden');
+          if (isClosed) {
+            openCustomizer();
+          } else {
+            closeCustomizer(false);
+          }
+        });
+      }
 
-      studioNameInput.addEventListener('input', (e) => {
-        updateBrandElements(e.target.value);
-      });
+      if (customizerBackdrop) {
+        customizerBackdrop.addEventListener('click', () => {
+          closeCustomizer(false);
+        });
+      }
 
-      resetDemoBtn.addEventListener('click', () => {
-        studioNameInput.value = '';
-        updateBrandElements('STUDIO NAILS LUXE');
-        applyTheme('natal');
-        showToast('Prévia restaurada para o padrão!');
-      });
+      if (studioNameInput) {
+        studioNameInput.addEventListener('input', (e) => {
+          updateBrandElements(e.target.value, true);
+        });
+
+        studioNameInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.keyCode === 13) {
+            e.preventDefault();
+            studioNameInput.blur();
+            closeCustomizer(true);
+          }
+        });
+      }
+
+      if (customizerForm) {
+        customizerForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          if (studioNameInput) studioNameInput.blur();
+          closeCustomizer(true);
+        });
+      }
+
+      if (resetDemoBtn) {
+        resetDemoBtn.addEventListener('click', () => {
+          if (studioNameInput) studioNameInput.value = '';
+          safeSetStorage(STORAGE_BRAND_KEY, '');
+          safeSetStorage(STORAGE_THEME_KEY, 'natal');
+          updateBrandElements(DEFAULT_BRAND_NAME, false);
+          applyTheme('natal', false);
+          showToast('Prévia restaurada para o padrão!');
+        });
+      }
 
       themeButtons.forEach((btn) => {
         btn.addEventListener('click', () => {
-          applyTheme(btn.getAttribute('data-theme-btn'));
+          applyTheme(btn.getAttribute('data-theme-btn'), true);
         });
       });
 
       /* ======================================================================
-         2. RENDERIZAÇÃO E FILTRO DE SERVIÇOS (#servicos)
+         2. RENDERIZAÇÃO DE SERVIÇOS & FILTROS POR CATEGORIA
          ====================================================================== */
       const serviceListEl = document.getElementById('serviceList');
       const filterTabs = document.querySelectorAll('.filter-tab');
-      const serviceSelectInput = document.getElementById('serviceSelectInput');
 
-      function populateServiceSelect() {
-        serviceSelectInput.innerHTML = SERVICES.map((s) => (
-          `<option value="${s.id}">${s.title} (${s.price})</option>`
-        )).join('');
-      }
+      function renderServices(category) {
+        if (!serviceListEl) return;
 
-      function renderServices() {
-        const filtered = state.activeFilter === 'todos'
+        const filtered = category === 'todos'
           ? SERVICES
-          : SERVICES.filter((item) => item.category === state.activeFilter);
+          : SERVICES.filter((item) => item.category === category);
 
-        serviceListEl.innerHTML = filtered.map((service) => `
-          <article class="cream-card rounded-2xl p-4 flex flex-col justify-between gap-3">
-            <div>
-              <div class="flex items-center justify-between gap-2 mb-1.5">
-                <span class="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-stone-500">
-                  <svg class="w-3 h-3 text-amber-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3 2"/>
-                  </svg>
-                  ${service.duration}
-                </span>
-                ${service.badge ? `
-                  <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-300/60">
-                    ${service.badge}
+        serviceListEl.innerHTML = filtered.map((srv) => {
+          const safeId = escapeHTML(srv.id);
+          const safeTitle = escapeHTML(srv.title);
+          const safeDuration = escapeHTML(srv.duration);
+          const safePrice = escapeHTML(srv.price);
+          const safeDesc = escapeHTML(srv.description);
+          const badgeMarkup = srv.badge
+            ? `<span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300/70">${escapeHTML(srv.badge)}</span>`
+            : '';
+
+          return `
+            <article class="cream-card rounded-2xl p-4 flex flex-col gap-3">
+              <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                  <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                    <h3 class="font-serif-editorial text-[15px] font-bold leading-snug" style="color: var(--text-on-light)">
+                      ${safeTitle}
+                    </h3>
+                    ${badgeMarkup}
+                  </div>
+                  <p class="text-xs leading-relaxed" style="color: var(--text-muted-light)">
+                    ${safeDesc}
+                  </p>
+                </div>
+              </div>
+
+              <div class="pt-2.5 border-t border-stone-100 flex items-center justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="text-sm font-bold" style="color: var(--text-on-light)">${safePrice}</span>
+                  <span class="inline-flex items-center gap-1 text-[11px] font-medium text-stone-500">
+                    <svg class="w-3.5 h-3.5 text-amber-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3 2"/>
+                    </svg>
+                    ${safeDuration}
                   </span>
-                ` : ''}
+                </div>
+
+                <button
+                  type="button"
+                  data-book-service="${safeId}"
+                  class="min-h-[38px] px-4 py-2 rounded-xl text-xs font-bold text-amber-50 transition hover:opacity-95 cursor-pointer shrink-0"
+                  style="background: linear-gradient(135deg, var(--bg-primary), var(--bg-deep))"
+                >
+                  Agendar
+                </button>
               </div>
-
-              <h3 class="font-serif-editorial text-base font-bold leading-snug" style="color: var(--text-on-light)">
-                ${service.title}
-              </h3>
-
-              <p class="text-xs mt-1 leading-relaxed" style="color: var(--text-muted-light)">
-                ${service.description}
-              </p>
-            </div>
-
-            <div class="pt-2.5 border-t border-stone-100 flex items-center justify-between gap-3">
-              <div>
-                <span class="block text-[10px] uppercase tracking-wider text-stone-400 font-medium">Valor</span>
-                <span class="text-base font-bold text-stone-900">${service.price}</span>
-              </div>
-
-              <button
-                type="button"
-                data-book-service="${service.id}"
-                class="px-4 py-2.5 rounded-full text-xs font-bold text-amber-50 shadow-sm hover:opacity-95 transition inline-flex items-center gap-1.5 cursor-pointer"
-                style="background: linear-gradient(135deg, var(--bg-primary), var(--bg-deep))"
-              >
-                <span>Agendar</span>
-                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </div>
-          </article>
-        `).join('');
-
-        serviceListEl.querySelectorAll('[data-book-service]').forEach((btn) => {
-          btn.addEventListener('click', () => {
-            const serviceId = btn.getAttribute('data-book-service');
-            openBookingModal({ serviceId });
-          });
-        });
+            </article>
+          `;
+        }).join('');
       }
 
       filterTabs.forEach((tab) => {
         tab.addEventListener('click', () => {
-          state.activeFilter = tab.getAttribute('data-filter');
-          filterTabs.forEach((t) => {
-            const active = t === tab;
-            t.setAttribute('aria-selected', String(active));
-            t.className = active
+          const selectedFilter = tab.getAttribute('data-filter') || 'todos';
+          state.activeFilter = selectedFilter;
+
+          filterTabs.forEach((btn) => {
+            const isSelected = btn === tab;
+            btn.setAttribute('aria-selected', String(isSelected));
+            btn.className = isSelected
               ? 'filter-tab shrink-0 px-3.5 py-2.5 rounded-full text-xs font-semibold transition cursor-pointer bg-stone-900 text-amber-100 shadow-sm'
               : 'filter-tab shrink-0 px-3.5 py-2.5 rounded-full text-xs font-medium transition cursor-pointer bg-stone-200/75 text-stone-700 hover:bg-stone-200';
           });
-          renderServices();
+
+          renderServices(selectedFilter);
         });
       });
 
+      if (serviceListEl) {
+        serviceListEl.addEventListener('click', (e) => {
+          const bookBtn = e.target.closest('[data-book-service]');
+          if (!bookBtn) return;
+          const serviceId = bookBtn.getAttribute('data-book-service');
+          openBookingModal({ serviceId: serviceId });
+        });
+      }
+
       /* ======================================================================
-         3. VITRINE DE ESTILOS (#vitrine)
+         3. VITRINE DE ESTILOS (SELEÇÃO DIRETA PARA O MODAL)
          ====================================================================== */
       document.querySelectorAll('[data-choose-style]').forEach((btn) => {
         btn.addEventListener('click', () => {
-          const styleName = btn.getAttribute('data-choose-style');
-          openBookingModal({ styleName });
+          const chosenStyle = btn.getAttribute('data-choose-style') || '';
+          openBookingModal({ styleName: chosenStyle });
         });
       });
 
       /* ======================================================================
-         4. ACORDEÃO INFORMAÇÕES & CUIDADOS
+         4. ACORDEÃO DE INFORMAÇÕES & CUIDADOS
          ====================================================================== */
-      document.querySelectorAll('.accordion-trigger').forEach((trigger) => {
+      const accordionTriggers = document.querySelectorAll('.accordion-trigger');
+
+      accordionTriggers.forEach((trigger) => {
         trigger.addEventListener('click', () => {
           const item = trigger.closest('.accordion-item');
+          if (!item) return;
           const isOpen = item.getAttribute('data-open') === 'true';
-          item.setAttribute('data-open', String(!isOpen));
-          trigger.setAttribute('aria-expanded', String(!isOpen));
+          const nextState = !isOpen;
+          item.setAttribute('data-open', String(nextState));
+          trigger.setAttribute('aria-expanded', String(nextState));
         });
       });
 
       /* ======================================================================
-         5. CARROSSEL DE DEPOIMENTOS (#depoimentos)
+         5. CARROSSEL DE DEPOIMENTOS (SETAS, BOLINHAS E SWIPE NO CELULAR)
          ====================================================================== */
       const reviewCard = document.getElementById('reviewCard');
       const reviewAvatar = document.getElementById('reviewAvatar');
@@ -1563,191 +1727,347 @@
       const reviewService = document.getElementById('reviewService');
       const reviewText = document.getElementById('reviewText');
       const reviewDots = document.getElementById('reviewDots');
+      const prevReviewBtn = document.getElementById('prevReview');
+      const nextReviewBtn = document.getElementById('nextReview');
 
       function renderReview(index) {
         const total = REVIEWS.length;
-        state.reviewIndex = (index + total) % total;
+        state.reviewIndex = ((index % total) + total) % total;
         const current = REVIEWS[state.reviewIndex];
 
-        reviewCard.style.opacity = '0.35';
-        setTimeout(() => {
-          reviewAvatar.textContent = current.initial;
-          reviewAuthor.textContent = current.author;
-          reviewService.textContent = current.service;
-          reviewText.textContent = `"${current.text}"`;
-          reviewCard.style.opacity = '1';
-        }, 120);
+        if (reviewAvatar) reviewAvatar.textContent = current.initial;
+        if (reviewAuthor) reviewAuthor.textContent = current.author;
+        if (reviewService) reviewService.textContent = current.service;
+        if (reviewText) reviewText.textContent = `"${current.text}"`;
 
-        reviewDots.innerHTML = REVIEWS.map((_, idx) => `
-          <button
-            type="button"
-            aria-label="Ir para depoimento ${idx + 1}"
-            data-dot-index="${idx}"
-            class="h-2 rounded-full transition-all cursor-pointer ${
-              idx === state.reviewIndex ? 'w-6 bg-amber-700' : 'w-2 bg-stone-300 hover:bg-stone-400'
-            }"
-          ></button>
-        `).join('');
+        if (reviewDots) {
+          reviewDots.innerHTML = REVIEWS.map((rev, idx) => {
+            const isActive = idx === state.reviewIndex;
+            return `
+              <button
+                type="button"
+                data-review-dot="${idx}"
+                aria-label="Ver depoimento ${idx + 1} de ${total}"
+                aria-current="${isActive ? 'true' : 'false'}"
+                class="h-2.5 rounded-full transition-all cursor-pointer ${isActive ? 'w-6 bg-amber-700' : 'w-2.5 bg-stone-300 hover:bg-stone-400'}"
+              ></button>
+            `;
+          }).join('');
+        }
+      }
 
-        reviewDots.querySelectorAll('[data-dot-index]').forEach((dot) => {
-          dot.addEventListener('click', () => {
-            renderReview(Number(dot.getAttribute('data-dot-index')));
-          });
+      if (prevReviewBtn) {
+        prevReviewBtn.addEventListener('click', () => {
+          renderReview(state.reviewIndex - 1);
         });
       }
 
-      document.getElementById('prevReview').addEventListener('click', () => {
-        renderReview(state.reviewIndex - 1);
-      });
+      if (nextReviewBtn) {
+        nextReviewBtn.addEventListener('click', () => {
+          renderReview(state.reviewIndex + 1);
+        });
+      }
 
-      document.getElementById('nextReview').addEventListener('click', () => {
-        renderReview(state.reviewIndex + 1);
-      });
+      if (reviewDots) {
+        reviewDots.addEventListener('click', (e) => {
+          const dot = e.target.closest('[data-review-dot]');
+          if (!dot) return;
+          const idx = Number(dot.getAttribute('data-review-dot'));
+          if (!Number.isNaN(idx)) {
+            renderReview(idx);
+          }
+        });
+      }
 
-      // Suporte a deslize (Swipe) no mobile
-      let touchStartX = 0;
-      reviewCard.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-      }, { passive: true });
+      /* Suporte a gesto de deslizar (swipe) no card de depoimentos */
+      if (reviewCard) {
+        let touchStartX = 0;
+        reviewCard.addEventListener('touchstart', (e) => {
+          if (e.changedTouches && e.changedTouches.length > 0) {
+            touchStartX = e.changedTouches[0].clientX;
+          }
+        }, { passive: true });
 
-      reviewCard.addEventListener('touchend', (e) => {
-        const diff = e.changedTouches[0].screenX - touchStartX;
-        if (Math.abs(diff) > 40) {
-          renderReview(diff > 0 ? state.reviewIndex - 1 : state.reviewIndex + 1);
-        }
-      }, { passive: true });
+        reviewCard.addEventListener('touchend', (e) => {
+          if (!e.changedTouches || e.changedTouches.length === 0) return;
+          const deltaX = e.changedTouches[0].clientX - touchStartX;
+          if (Math.abs(deltaX) > 40) {
+            if (deltaX < 0) {
+              renderReview(state.reviewIndex + 1);
+            } else {
+              renderReview(state.reviewIndex - 1);
+            }
+          }
+        }, { passive: true });
+      }
 
       /* ======================================================================
-         6. MODAL DE AGENDAMENTO MOBILE-FIRST (BOTTOM SHEET + SCROLL LOCK)
+         6. MODAL DE AGENDAMENTO MOBILE-FIRST & INTEGRAÇÃO WHATSAPP
          ====================================================================== */
       const bookingModal = document.getElementById('bookingModal');
-      const modalCardEl = bookingModal.querySelector('.modal-card');
+      const bookingForm = document.getElementById('bookingForm');
+      const closeBookingModalBtn = document.getElementById('closeBookingModalBtn');
+      const heroBookBtn = document.getElementById('heroBookBtn');
+      const directWhatsappBtn = document.getElementById('directWhatsappBtn');
+
       const clientNameInput = document.getElementById('clientNameInput');
+      const clientNameError = document.getElementById('clientNameError');
+      const serviceSelectInput = document.getElementById('serviceSelectInput');
       const styleSelectInput = document.getElementById('styleSelectInput');
       const bookingDateInput = document.getElementById('bookingDateInput');
       const notesTextareaInput = document.getElementById('notesTextareaInput');
+      const shiftButtons = document.querySelectorAll('.shift-btn');
+      const whatsappPreviewBox = document.getElementById('whatsappPreviewBox');
+      const copyBookingMsgBtn = document.getElementById('copyBookingMsgBtn');
 
-      // Define data mínima como hoje (fuso local)
-      function getLocalTodayIso() {
-        const now = new Date();
-        const offset = now.getTimezoneOffset() * 60000;
-        return new Date(now.getTime() - offset).toISOString().split('T')[0];
+      function populateServiceSelect() {
+        if (!serviceSelectInput) return;
+        serviceSelectInput.innerHTML = SERVICES.map((srv) => {
+          return `<option value="${escapeHTML(srv.id)}">${escapeHTML(srv.title)} (${escapeHTML(srv.price)})</option>`;
+        }).join('');
       }
-      bookingDateInput.setAttribute('min', getLocalTodayIso());
+
+      function getTodayISOString() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
 
       function formatBrazilianDate(isoDate) {
-        if (!isoDate) return 'A combinar';
+        if (!isoDate || typeof isoDate !== 'string') return 'A combinar';
         const parts = isoDate.split('-');
-        if (parts.length !== 3) return isoDate;
+        if (parts.length !== 3) return 'A combinar';
         return `${parts[2]}/${parts[1]}/${parts[0]}`;
       }
 
-      function updateBookingPreview() {
-        const selectedServiceObj = SERVICES.find((s) => s.id === serviceSelectInput.value) || SERVICES[0];
-        const clientName = clientNameInput.value.trim();
-        const selectedStyle = styleSelectInput.value.trim();
-        const formattedDate = formatBrazilianDate(bookingDateInput.value);
-        const notes = notesTextareaInput.value.trim();
+      function setClientNameValidation(isValid) {
+        if (!clientNameInput || !clientNameError) return;
+        if (isValid) {
+          clientNameInput.classList.remove('input-invalid');
+          clientNameInput.removeAttribute('aria-invalid');
+          clientNameError.classList.add('hidden');
+        } else {
+          clientNameInput.classList.add('input-invalid');
+          clientNameInput.setAttribute('aria-invalid', 'true');
+          clientNameError.classList.remove('hidden');
+        }
+      }
+
+      function buildWhatsappMessage() {
+        const selectedId = serviceSelectInput ? serviceSelectInput.value : SERVICES[0].id;
+        const selectedServiceObj = SERVICES.find((s) => s.id === selectedId) || SERVICES[0];
+        const clientName = clientNameInput ? clientNameInput.value.trim() : '';
+        const selectedStyle = styleSelectInput ? styleSelectInput.value.trim() : '';
+        const formattedDate = bookingDateInput ? formatBrazilianDate(bookingDateInput.value) : 'A combinar';
+        const notes = notesTextareaInput ? notesTextareaInput.value.trim() : '';
+        const hasCustomBrand = state.studioName && state.studioName !== DEFAULT_BRAND_NAME;
 
         const greeting = clientName
-          ? `Olá, *${state.studioName}*! Meu nome é *${clientName}*.`
-          : `Olá, *${state.studioName}*!`;
+          ? (hasCustomBrand ? `Olá, *${state.studioName}*! Meu nome é *${clientName}*.` : `Olá! Meu nome é *${clientName}*.`)
+          : (hasCustomBrand ? `Olá, *${state.studioName}*!` : 'Olá!');
 
         const lines = [
           `${greeting} ✨`,
-          `Gostaria de agendar um horário:`,
-          ``,
-          `• *Serviço:* ${selectedServiceObj.title} (${selectedServiceObj.price})`,
-          selectedStyle ? `• *Estilo / Inspiração:* ${selectedStyle}` : null,
+          'Gostaria de solicitar um pré-agendamento:',
+          '',
+          `• *Procedimento:* ${selectedServiceObj.title} (${selectedServiceObj.price})`,
+          `• *Estilo / Inspiração:* ${selectedStyle || 'A definir no atendimento'}`,
           `• *Data Preferida:* ${formattedDate}`,
-          `• *Turno:* ${state.selectedShift}`,
-          notes ? `• *Observações:* ${notes}` : null,
-          ``,
-          `Aguardo confirmação de disponibilidade! ♡`
-        ].filter((line) => line !== null);
+          `• *Turno:* ${state.selectedShift}`
+        ];
 
-        const message = lines.join('\n');
-        document.getElementById('whatsappPreviewBox').textContent = message;
+        if (notes) {
+          lines.push(`• *Observações:* ${notes}`);
+        }
 
-        const waUrl = `https://wa.me/${STUDIO_WHATSAPP}?text=${encodeURIComponent(message)}`;
-        document.getElementById('confirmWhatsappLink').setAttribute('href', waUrl);
+        lines.push('', 'Aguardo a confirmação de disponibilidade! ♡');
+        return lines.join('\n');
       }
 
-      function openBookingModal(options = {}) {
-        if (options.serviceId) {
-          serviceSelectInput.value = options.serviceId;
+      function updateBookingPreview() {
+        const message = buildWhatsappMessage();
+        if (whatsappPreviewBox) {
+          whatsappPreviewBox.textContent = message;
         }
-        if (options.styleName !== undefined) {
-          styleSelectInput.value = options.styleName;
+        return message;
+      }
+
+      function openBookingModal(options) {
+        const opts = options || {};
+        if (!bookingModal) return;
+
+        if (opts.serviceId && serviceSelectInput) {
+          serviceSelectInput.value = opts.serviceId;
+        }
+        if (typeof opts.styleName === 'string' && styleSelectInput) {
+          styleSelectInput.value = opts.styleName;
         }
 
+        setClientNameValidation(true);
         updateBookingPreview();
+
         bookingModal.classList.add('is-open');
         document.body.classList.add('modal-open');
-        if (modalCardEl) modalCardEl.scrollTop = 0;
       }
 
       function closeBookingModal() {
+        if (!bookingModal) return;
+        if (document.activeElement && typeof document.activeElement.blur === 'function') {
+          document.activeElement.blur();
+        }
         bookingModal.classList.remove('is-open');
         document.body.classList.remove('modal-open');
       }
 
-      // Eventos de fechamento do modal (Botão ×, clique no fundo e tecla Escape)
-      document.getElementById('closeBookingModalBtn').addEventListener('click', closeBookingModal);
+      if (heroBookBtn) {
+        heroBookBtn.addEventListener('click', () => openBookingModal());
+      }
 
-      bookingModal.addEventListener('click', (e) => {
-        if (e.target === bookingModal) {
-          closeBookingModal();
-        }
-      });
+      if (directWhatsappBtn) {
+        directWhatsappBtn.addEventListener('click', () => openBookingModal());
+      }
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && bookingModal.classList.contains('is-open')) {
-          closeBookingModal();
-        }
-      });
+      if (closeBookingModalBtn) {
+        closeBookingModalBtn.addEventListener('click', closeBookingModal);
+      }
 
-      // Atualização em tempo real da mensagem conforme preenchimento
-      clientNameInput.addEventListener('input', updateBookingPreview);
-      serviceSelectInput.addEventListener('change', updateBookingPreview);
-      styleSelectInput.addEventListener('change', updateBookingPreview);
-      bookingDateInput.addEventListener('change', updateBookingPreview);
-      notesTextareaInput.addEventListener('input', updateBookingPreview);
+      if (bookingModal) {
+        bookingModal.addEventListener('click', (e) => {
+          if (e.target === bookingModal) {
+            closeBookingModal();
+          }
+        });
+      }
 
-      // Seleção tátil de Turno (Manhã, Tarde, Noite)
-      document.querySelectorAll('.shift-btn').forEach((btn) => {
+      shiftButtons.forEach((btn) => {
         btn.addEventListener('click', () => {
-          state.selectedShift = btn.getAttribute('data-shift');
-          document.querySelectorAll('.shift-btn').forEach((b) => {
-            const active = b === btn;
-            b.className = active
+          state.selectedShift = btn.getAttribute('data-shift') || 'Manhã';
+
+          shiftButtons.forEach((item) => {
+            const isSelected = item === btn;
+            item.setAttribute('aria-pressed', String(isSelected));
+            item.className = isSelected
               ? 'shift-btn min-h-[44px] py-2.5 px-2 rounded-xl text-xs font-bold border border-amber-700 bg-amber-700 text-white transition cursor-pointer'
               : 'shift-btn min-h-[44px] py-2.5 px-2 rounded-xl text-xs font-semibold border border-stone-300 bg-white text-stone-700 hover:bg-stone-50 transition cursor-pointer';
           });
+
           updateBookingPreview();
         });
       });
 
-      document.getElementById('copyBookingMsgBtn').addEventListener('click', () => {
-        const text = document.getElementById('whatsappPreviewBox').textContent;
-        copyTextToClipboard(text);
+      if (clientNameInput) {
+        clientNameInput.addEventListener('input', () => {
+          if (clientNameInput.value.trim().length > 0) {
+            setClientNameValidation(true);
+          }
+          updateBookingPreview();
+        });
+      }
+
+      [serviceSelectInput, styleSelectInput, bookingDateInput, notesTextareaInput].forEach((field) => {
+        if (!field) return;
+        field.addEventListener('input', updateBookingPreview);
+        field.addEventListener('change', updateBookingPreview);
       });
 
-      document.getElementById('heroBookBtn').addEventListener('click', () => {
-        openBookingModal({ serviceId: SERVICES[0].id });
-      });
+      /* Submissão do Formulário de Agendamento com validação amigável */
+      if (bookingForm) {
+        bookingForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const clientName = clientNameInput ? clientNameInput.value.trim() : '';
 
-      document.getElementById('mainWhatsappBtn').addEventListener('click', () => {
-        openBookingModal({ serviceId: SERVICES[0].id });
+          if (!clientName) {
+            setClientNameValidation(false);
+            if (clientNameInput) {
+              clientNameInput.focus();
+            }
+            showToast('Informe seu nome para agendar ✨');
+            return;
+          }
+
+          setClientNameValidation(true);
+          const message = updateBookingPreview();
+          const waUrl = `https://wa.me/${STUDIO_WHATSAPP}?text=${encodeURIComponent(message)}`;
+          window.open(waUrl, '_blank', 'noopener,noreferrer');
+        });
+      }
+
+      /* Copiar mensagem compatível com restrições de iframe */
+      if (copyBookingMsgBtn) {
+        copyBookingMsgBtn.addEventListener('click', () => {
+          const textToCopy = updateBookingPreview();
+          const tempTextarea = document.createElement('textarea');
+          tempTextarea.value = textToCopy;
+          tempTextarea.setAttribute('readonly', '');
+          tempTextarea.style.position = 'fixed';
+          tempTextarea.style.opacity = '0';
+          document.body.appendChild(tempTextarea);
+          tempTextarea.select();
+
+          let copied = false;
+          try {
+            copied = document.execCommand('copy');
+          } catch (err) {
+            copied = false;
+          }
+          document.body.removeChild(tempTextarea);
+
+          if (copied) {
+            showToast('Mensagem copiada com sucesso! ✓');
+          } else if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+            navigator.clipboard.writeText(textToCopy)
+              .then(() => showToast('Mensagem copiada com sucesso! ✓'))
+              .catch(() => showToast('Não foi possível copiar automaticamente.'));
+          } else {
+            showToast('Selecione e copie o resumo acima.');
+          }
+        });
+      }
+
+      /* Fechamento global com a tecla Escape */
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (bookingModal && bookingModal.classList.contains('is-open')) {
+            closeBookingModal();
+          }
+          if (customizerDrawer && !customizerDrawer.classList.contains('hidden')) {
+            closeCustomizer(false);
+          }
+        }
       });
 
       /* ======================================================================
-         INICIALIZAÇÃO
+         7. INICIALIZAÇÃO SEGURA DA PÁGINA
          ====================================================================== */
-      populateServiceSelect();
-      renderServices();
-      renderReview(0);
-      updateBookingPreview();
+      function init() {
+        const yearEl = document.getElementById('currentYear');
+        if (yearEl) {
+          yearEl.textContent = String(new Date().getFullYear());
+        }
+
+        if (bookingDateInput) {
+          bookingDateInput.setAttribute('min', getTodayISOString());
+        }
+
+        if (studioNameInput && state.studioName !== DEFAULT_BRAND_NAME) {
+          studioNameInput.value = state.studioName;
+        }
+
+        updateBrandElements(state.studioName, false);
+        applyTheme(state.theme, false);
+        populateServiceSelect();
+        renderServices('todos');
+        renderReview(0);
+        updateBookingPreview();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
     })();
   </script>
 </body>
